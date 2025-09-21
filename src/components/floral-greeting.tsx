@@ -89,9 +89,9 @@ const FlowerAnimation = ({ animationKey }: { animationKey: number }) => (
         <path d="M 162,220 C 150,230 140,250 145,260" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-1" />
         <g transform="translate(180, 150) rotate(-15)">
           <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-1" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(0)" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(120)" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(240)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(0)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(120)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(240)" />
         </g>
       </g>
 
@@ -102,9 +102,9 @@ const FlowerAnimation = ({ animationKey }: { animationKey: number }) => (
         <path d="M 200,200 C 220,210 220,230 205,240" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-3" />
         <g transform="translate(200, 100) scale(1.2)">
           <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-2" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(30)" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(150)" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(270)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(30)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(150)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(270)" />
         </g>
       </g>
 
@@ -114,9 +114,9 @@ const FlowerAnimation = ({ animationKey }: { animationKey: number }) => (
         <path d="M 238,220 C 250,230 260,250 255,260" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-4" />
         <g transform="translate(220, 150) rotate(15)">
            <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-3" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(60)" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(180)" />
-          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(300)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(60)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(180)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(300)" />
         </g>
       </g>
     </g>
