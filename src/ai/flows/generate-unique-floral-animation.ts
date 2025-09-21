@@ -1,10 +1,6 @@
 'use server';
 /**
- * @fileOverview Generates a unique animated floral display for each interaction.
- *
- * - generateUniqueFloralAnimation - A function that generates a unique floral animation.
- * - GenerateUniqueFloralAnimationInput - The input type for the generateUniqueFloralAnimation function.
- * - GenerateUniqueFloralAnimationOutput - The return type for the generateUniqueFloralAnimation function.
+ * @fileOverview This flow is no longer used. The new animation is client-side only.
  */
 
 import {ai} from '@/ai/genkit';
@@ -21,7 +17,8 @@ const GenerateUniqueFloralAnimationOutputSchema = z.object({
 export type GenerateUniqueFloralAnimationOutput = z.infer<typeof GenerateUniqueFloralAnimationOutputSchema>;
 
 export async function generateUniqueFloralAnimation(input: GenerateUniqueFloralAnimationInput): Promise<GenerateUniqueFloralAnimationOutput> {
-  return generateUniqueFloralAnimationFlow(input);
+  // Return the base animation as this flow is not used anymore.
+  return { uniqueAnimation: input.baseAnimation };
 }
 
 const prompt = ai.definePrompt({
@@ -44,7 +41,7 @@ const generateUniqueFloralAnimationFlow = ai.defineFlow(
     outputSchema: GenerateUniqueFloralAnimationOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    // Return a dummy response as this flow is deprecated.
+    return { uniqueAnimation: input.baseAnimation };
   }
 );
