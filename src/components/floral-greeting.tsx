@@ -47,7 +47,7 @@ export default function FloralGreeting() {
       <div className="w-full max-w-lg space-y-6">
         <header>
           <h1 className="font-headline text-5xl text-foreground/90 sm:text-6xl md:text-7xl">
-            Feliz Primavera, Antonella
+            Para la flor más bella, Antonella
           </h1>
         </header>
 
