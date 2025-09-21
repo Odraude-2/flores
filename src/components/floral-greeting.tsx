@@ -208,7 +208,6 @@ export default function FloralGreeting() {
   const [showButton, setShowButton] = useState(true);
 
   const handleBloom = () => {
-      setShowPoem(false);
       setShowButton(false);
       
       setTimeout(() => {
@@ -222,20 +221,18 @@ export default function FloralGreeting() {
 
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center bg-background p-6 text-center overflow-hidden">
-      <div className="w-full max-w-md space-y-4">
-        <header>
+      <div className="w-full max-w-md space-y-4 flex flex-col justify-around h-full">
+        <header className="flex-shrink-0">
           <h1 className="font-headline text-5xl text-foreground/90 sm:text-6xl md:text-7xl">
             Para la flor más bella, Antonella
           </h1>
         </header>
 
-        <main className="flex flex-col items-center justify-center">
-          <div className="w-full h-80 flex items-center justify-center">
-            {showFlower && <LotusAnimation animationKey={animationKey} />}
-          </div>
-          
-          <div className={`transition-all duration-500 ease-in-out ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-            {showButton && (
+        <main className="flex flex-col items-center justify-center flex-grow">
+          <div className="w-full h-80 flex items-center justify-center relative">
+            {showFlower ? (
+              <LotusAnimation animationKey={animationKey} />
+            ) : showButton ? (
               <Button
                 onClick={handleBloom}
                 size="lg"
@@ -243,13 +240,13 @@ export default function FloralGreeting() {
               >
                 Toca para florecer
               </Button>
-            )}
-          </div>
-          
-          <div className="min-h-[120px]">
-            {showFlower && <Poem show={showPoem} />}
+            ) : null}
           </div>
         </main>
+        
+        <footer className="min-h-[120px] flex-shrink-0 flex items-center justify-center">
+            {showFlower && <Poem show={showPoem} />}
+        </footer>
       </div>
     </div>
   );
