@@ -3,126 +3,198 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-// CSS para la animación del SVG, inyectado directamente.
-const svgStyles = `
-  /* Trazos de los tallos */
-  .stem {
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    animation: draw-stem 1.5s cubic-bezier(.6,0,.4,1) forwards;
-  }
-  .stem-1 { animation-delay: 0s; }
-  .stem-2 { animation-delay: 0.1s; }
-  .stem-3 { animation-delay: 0.2s; }
+// CSS para la animación de la flor de loto, adaptado del CodePen
+const lotusAnimationStyles = `
+.lotus-container {
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  animation: fadeIn 2s ease-in-out;
+}
 
-  /* Hojas que se despliegan */
-  .leaf {
-    transform-origin: bottom left;
-    transform: scale(0);
-    animation: unfold-leaf 1s cubic-bezier(.6,0,.4,1) forwards;
-  }
-  .leaf-1 { animation-delay: 0.8s; }
-  .leaf-2 { animation-delay: 0.9s; }
-  .leaf-3 { animation-delay: 1s; }
-  .leaf-4 { animation-delay: 1.1s; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.lotus {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: rotateLotus 20s linear infinite;
+  animation-delay: 1.5s;
+}
+
+@keyframes rotateLotus {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.petal, .petal-alt {
+  width: 100px;
+  height: 100px;
+  background: hsl(var(--primary) / 0.8);
+  border-radius: 50px 0;
+  position: absolute;
+  box-shadow: 0 0 15px hsl(var(--primary) / 0.5);
+  border: 1px solid hsl(var(--primary-foreground) / 0.2);
+}
+
+.petal {
+  transform-origin: bottom left;
+  animation: bloomPetal 2s ease-out forwards;
+}
+
+.petal-alt {
+  background: hsl(var(--primary) / 0.6);
+  transform-origin: bottom left;
+  animation: bloomPetalAlt 2s ease-out forwards;
+}
+
+.petal:nth-child(1) { transform: rotate(0deg) translateX(20px); animation-delay: 0.2s; }
+.petal:nth-child(2) { transform: rotate(45deg) translateX(20px); animation-delay: 0.3s; }
+.petal:nth-child(3) { transform: rotate(90deg) translateX(20px); animation-delay: 0.4s; }
+.petal:nth-child(4) { transform: rotate(135deg) translateX(20px); animation-delay: 0.5s; }
+.petal:nth-child(5) { transform: rotate(180deg) translateX(20px); animation-delay: 0.6s; }
+.petal:nth-child(6) { transform: rotate(225deg) translateX(20px); animation-delay: 0.7s; }
+.petal:nth-child(7) { transform: rotate(270deg) translateX(20px); animation-delay: 0.8s; }
+.petal:nth-child(8) { transform: rotate(315deg) translateX(20px); animation-delay: 0.9s; }
+
+.petal-alt:nth-child(9) { transform: rotate(22.5deg) translateX(35px); animation-delay: 1s; }
+.petal-alt:nth-child(10) { transform: rotate(67.5deg) translateX(35px); animation-delay: 1.1s; }
+.petal-alt:nth-child(11) { transform: rotate(112.5deg) translateX(35px); animation-delay: 1.2s; }
+.petal-alt:nth-child(12) { transform: rotate(157.5deg) translateX(35px); animation-delay: 1.3s; }
+.petal-alt:nth-child(13) { transform: rotate(202.5deg) translateX(35px); animation-delay: 1.4s; }
+.petal-alt:nth-child(14) { transform: rotate(247.5deg) translateX(35px); animation-delay: 1.5s; }
+.petal-alt:nth-child(15) { transform: rotate(292.5deg) translateX(35px); animation-delay: 1.6s; }
+.petal-alt:nth-child(16) { transform: rotate(337.5deg) translateX(35px); animation-delay: 1.7s; }
+
+.lotus-center {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: hsl(var(--primary-foreground));
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+  transform: scale(0);
+  animation: bloomCenter 1.5s ease-out 1.8s forwards;
+  box-shadow: 0 0 20px 5px hsl(var(--primary));
+}
+
+.leaves {
+  position: absolute;
+  bottom: -40px;
+  width: 250px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: -1;
+}
+
+.leaf {
+  width: 100px;
+  height: 50px;
+  background-color: hsl(var(--foreground) / 0.5);
+  border-radius: 0 50px;
+  position: absolute;
+  opacity: 0;
+  transform-origin: bottom center;
+  animation: unfoldLeaf 2s ease-out 1s forwards;
+}
+
+.leaf:nth-child(1) { transform: rotate(-30deg) translateX(-80px) scale(0); }
+.leaf:nth-child(2) { transform: rotate(30deg) translateX(80px) scale(0); }
+.leaf:nth-child(3) { transform: rotate(0deg) scale(0) translateY(20px); animation-delay: 1.2s; }
 
 
-  /* Centro de la flor */
-  .center {
-    transform: scale(0);
-    animation: bloom-center 0.8s cubic-bezier(.5,0,.3,1.5) forwards;
-  }
-  .center-1 { animation-delay: 1.2s; }
-  .center-2 { animation-delay: 1.3s; }
-  .center-3 { animation-delay: 1.4s; }
+@keyframes bloomPetal {
+  0% { transform: rotate(var(--angle)) translateX(0) scale(0); opacity: 0; }
+  100% { transform: rotate(var(--angle)) translateX(20px) scale(1); opacity: 1; }
+}
+.petal:nth-child(1) { --angle: 0deg; }
+.petal:nth-child(2) { --angle: 45deg; }
+.petal:nth-child(3) { --angle: 90deg; }
+.petal:nth-child(4) { --angle: 135deg; }
+.petal:nth-child(5) { --angle: 180deg; }
+.petal:nth-child(6) { --angle: 225deg; }
+.petal:nth-child(7) { --angle: 270deg; }
+.petal:nth-child(8) { --angle: 315deg; }
 
-  /* Pétalos que florecen desde el centro */
-  .petal {
-    transform-origin: center;
-    transform: scale(0);
-    animation: bloom-petal 0.7s cubic-bezier(.4,0,.2,1.2) forwards;
-  }
-  
-  .flower-1 .petal-1 { animation-delay: 1.5s; }
-  .flower-1 .petal-2 { animation-delay: 1.6s; }
-  .flower-1 .petal-3 { animation-delay: 1.7s; }
+@keyframes bloomPetalAlt {
+  0% { transform: rotate(var(--angle)) translateX(0) scale(0); opacity: 0; }
+  100% { transform: rotate(var(--angle)) translateX(35px) scale(1); opacity: 1; }
+}
 
-  .flower-2 .petal-1 { animation-delay: 1.65s; }
-  .flower-2 .petal-2 { animation-delay: 1.75s; }
-  .flower-2 .petal-3 { animation-delay: 1.85s; }
-
-  .flower-3 .petal-1 { animation-delay: 1.8s; }
-  .flower-3 .petal-2 { animation-delay: 1.9s; }
-  .flower-3 .petal-3 { animation-delay: 2.0s; }
+.petal-alt:nth-child(9) { --angle: 22.5deg; }
+.petal-alt:nth-child(10) { --angle: 67.5deg; }
+.petal-alt:nth-child(11) { --angle: 112.5deg; }
+.petal-alt:nth-child(12) { --angle: 157.5deg; }
+.petal-alt:nth-child(13) { --angle: 202.5deg; }
+.petal-alt:nth-child(14) { --angle: 247.5deg; }
+.petal-alt:nth-child(15) { --angle: 292.5deg; }
+.petal-alt:nth-child(16) { --angle: 337.5deg; }
 
 
-  @keyframes draw-stem {
-    to { stroke-dashoffset: 0; }
-  }
-  @keyframes unfold-leaf {
-    to { transform: scale(1); }
-  }
-  @keyframes bloom-center {
-    to { transform: scale(1); }
-  }
-  @keyframes bloom-petal {
-    from { transform: scale(0); }
-    to { transform: scale(1); }
-  }
+@keyframes bloomCenter {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes unfoldLeaf {
+  from { opacity: 0; transform: var(--initial-transform) scale(0); }
+  to { opacity: 1; transform: var(--final-transform) scale(1); }
+}
+
+.leaf:nth-child(1) { --initial-transform: rotate(-30deg) translateX(-80px); --final-transform: rotate(-30deg) translateX(-80px); }
+.leaf:nth-child(2) { --initial-transform: rotate(30deg) translateX(80px); --final-transform: rotate(30deg) translateX(80px); }
+.leaf:nth-child(3) { --initial-transform: rotate(0deg) translateY(20px); --final-transform: rotate(0deg) translateY(20px); }
 `;
 
-// Componente de la animación de flores
-const FlowerAnimation = ({ animationKey }: { animationKey: number }) => (
-  <svg
-    key={animationKey}
-    viewBox="0 0 400 400"
-    width="100%"
-    height="100%"
-    preserveAspectRatio="xMidYMid meet"
-    aria-label="Un ramo de flores floreciendo"
-    role="img"
-  >
-    <g transform="translate(20, 20)">
-      {/* --- Flor 1 (Izquierda) --- */}
-      <g className="flower-1">
-        <path d="M 120,350 C 120,250 150,200 180,150" fill="none" stroke="hsl(var(--foreground) / 0.6)" strokeWidth="2" strokeLinecap="round" className="stem stem-1" />
-        <path d="M 162,220 C 150,230 140,250 145,260" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-1" />
-        <g transform="translate(180, 150) rotate(-15)">
-          <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-1" />
-          <path transform="rotate(0)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" />
-          <path transform="rotate(120)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" />
-          <path transform="rotate(240)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" />
-        </g>
-      </g>
-
-      {/* --- Flor 2 (Central) --- */}
-      <g className="flower-2">
-        <path d="M 200,350 C 200,200 200,150 200,100" fill="none" stroke="hsl(var(--foreground) / 0.6)" strokeWidth="2" strokeLinecap="round" className="stem stem-2" />
-        <path d="M 200,250 C 180,260 180,280 195,290" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-2" />
-        <path d="M 200,200 C 220,210 220,230 205,240" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-3" />
-        <g transform="translate(200, 100) scale(1.2)">
-          <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-2" />
-          <path transform="rotate(30)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" />
-          <path transform="rotate(150)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" />
-          <path transform="rotate(270)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" />
-        </g>
-      </g>
-
-      {/* --- Flor 3 (Derecha) --- */}
-      <g className="flower-3">
-        <path d="M 280,350 C 280,250 250,200 220,150" fill="none" stroke="hsl(var(--foreground) / 0.6)" strokeWidth="2" strokeLinecap="round" className="stem stem-3" />
-        <path d="M 238,220 C 250,230 260,250 255,260" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-4" />
-        <g transform="translate(220, 150) rotate(15)">
-           <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-3" />
-          <path transform="rotate(60)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" />
-          <path transform="rotate(180)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" />
-          <path transform="rotate(300)" d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--primary) / 0.8)" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" />
-        </g>
-      </g>
-    </g>
-    <style>{svgStyles}</style>
-  </svg>
+// Componente de la animación de la flor de loto
+const LotusAnimation = ({ animationKey }: { animationKey: number }) => (
+  <div key={animationKey} className="lotus-container">
+    <div className="lotus">
+      {/* 8 pétalos principales */}
+      <div className="petal"></div>
+      <div className="petal"></div>
+      <div className="petal"></div>
+      <div className="petal"></div>
+      <div className="petal"></div>
+      <div className="petal"></div>
+      <div className="petal"></div>
+      <div className="petal"></div>
+      {/* 8 pétalos secundarios */}
+      <div className="petal-alt"></div>
+      <div className="petal-alt"></div>
+      <div className="petal-alt"></div>
+      <div className="petal-alt"></div>
+      <div className="petal-alt"></div>
+      <div className="petal-alt"></div>
+      <div className="petal-alt"></div>
+      <div className="petal-alt"></div>
+      
+      <div className="lotus-center"></div>
+    </div>
+    <ul className="leaves">
+      <li className="leaf"></li>
+      <li className="leaf"></li>
+      <li className="leaf"></li>
+    </ul>
+    <style>{lotusAnimationStyles}</style>
+  </div>
 );
+
 
 const Poem = ({ show }: { show: boolean }) => (
   <blockquote className={`mt-4 space-y-2 transition-all duration-1000 ease-in-out ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
@@ -145,12 +217,12 @@ export default function FloralGreeting() {
 
   const handleBloom = () => {
       setShowPoem(false);
-      // Forzar un reflow para reiniciar la animación del poema
+      // Forzar un reflow para reiniciar la animación
       setTimeout(() => {
         setAnimationKey(prevKey => prevKey + 1);
         setIsBlooming(true);
-        // El poema se muestra después de que la animación de las flores casi ha terminado
-        setTimeout(() => setShowPoem(true), 2200);
+        // El poema aparece después de que la animación casi ha terminado
+        setTimeout(() => setShowPoem(true), 2500);
       }, 50)
   };
 
@@ -164,8 +236,8 @@ export default function FloralGreeting() {
         </header>
 
         <main className="flex flex-col items-center justify-center">
-          <div className="w-full h-80 -mb-4">
-            {isBlooming && <FlowerAnimation animationKey={animationKey} />}
+          <div className="w-full h-80 flex items-center justify-center">
+            {isBlooming && <LotusAnimation animationKey={animationKey} />}
           </div>
 
           <Button
