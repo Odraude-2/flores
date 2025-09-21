@@ -5,60 +5,69 @@ import { Button } from "@/components/ui/button";
 
 // CSS para la animación del SVG, inyectado directamente.
 const svgStyles = `
+  /* Trazos de los tallos */
   .stem {
-    stroke-dasharray: 420;
-    stroke-dashoffset: 420;
-    animation: draw-stem 1.1s cubic-bezier(.2,.8,.2,1) forwards;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: draw-stem 1.5s cubic-bezier(.6,0,.4,1) forwards;
   }
-  .stem-1 { animation-delay: 0.1s; }
-  .stem-2 { animation-delay: 0.25s; }
-  .stem-3 { animation-delay: 0.4s; }
+  .stem-1 { animation-delay: 0s; }
+  .stem-2 { animation-delay: 0.1s; }
+  .stem-3 { animation-delay: 0.2s; }
 
+  /* Hojas que se despliegan */
   .leaf {
-    opacity: 0;
-    transform-origin: center;
-    transform-box: fill-box;
-    animation: unfold-leaf 0.6s ease-out forwards;
-  }
-  .leaf-1 { animation-delay: 0.5s; }
-  .leaf-2 { animation-delay: 0.65s; }
-  .leaf-3 { animation-delay: 0.8s; }
-
-  .petal {
+    transform-origin: bottom left;
     transform: scale(0);
-    opacity: 0;
-    transform-origin: center;
-    transform-box: fill-box;
-    animation: bloom-petal 0.55s cubic-bezier(.15,.8,.25,1) forwards;
+    animation: unfold-leaf 1s cubic-bezier(.6,0,.4,1) forwards;
   }
+  .leaf-1 { animation-delay: 0.8s; }
+  .leaf-2 { animation-delay: 0.9s; }
+  .leaf-3 { animation-delay: 1s; }
+  .leaf-4 { animation-delay: 1.1s; }
+
+
+  /* Centro de la flor */
   .center {
     transform: scale(0);
-    opacity: 0;
-    transform-origin: center;
-    transform-box: fill-box;
-    animation: center-pulse 1s ease-out forwards;
-    animation-delay: 1.38s;
+    animation: bloom-center 0.8s cubic-bezier(.5,0,.3,1.5) forwards;
   }
+  .center-1 { animation-delay: 1.2s; }
+  .center-2 { animation-delay: 1.3s; }
+  .center-3 { animation-delay: 1.4s; }
 
-  /* Delays para la animación escalonada de los pétalos */
-  .p1 { animation-delay: 0.9s; }
-  .p2 { animation-delay: 1.02s; }
-  .p3 { animation-delay: 1.14s; }
-  .p4 { animation-delay: 1.26s; }
+  /* Pétalos que florecen desde el centro */
+  .petal {
+    transform-origin: center;
+    transform: scale(0);
+    animation: bloom-petal 0.7s cubic-bezier(.4,0,.2,1.2) forwards;
+  }
   
+  .flower-1 .petal-1 { animation-delay: 1.5s; }
+  .flower-1 .petal-2 { animation-delay: 1.6s; }
+  .flower-1 .petal-3 { animation-delay: 1.7s; }
+
+  .flower-2 .petal-1 { animation-delay: 1.65s; }
+  .flower-2 .petal-2 { animation-delay: 1.75s; }
+  .flower-2 .petal-3 { animation-delay: 1.85s; }
+
+  .flower-3 .petal-1 { animation-delay: 1.8s; }
+  .flower-3 .petal-2 { animation-delay: 1.9s; }
+  .flower-3 .petal-3 { animation-delay: 2.0s; }
+
+
   @keyframes draw-stem {
     to { stroke-dashoffset: 0; }
   }
   @keyframes unfold-leaf {
-    to { opacity: 1; }
+    to { transform: scale(1); }
+  }
+  @keyframes bloom-center {
+    to { transform: scale(1); }
   }
   @keyframes bloom-petal {
-    to { transform: scale(1); opacity: 1; }
-  }
-  @keyframes center-pulse {
-    0% { transform: scale(0.6); opacity: 0; }
-    60% { transform: scale(1.12); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(0) rotate(-30deg); }
+    100% { transform: scale(1) rotate(0deg); }
   }
 `;
 
@@ -66,60 +75,48 @@ const svgStyles = `
 const FlowerAnimation = ({ animationKey }: { animationKey: number }) => (
   <svg
     key={animationKey}
-    viewBox="0 0 360 360"
+    viewBox="0 0 400 400"
     width="100%"
     height="100%"
     preserveAspectRatio="xMidYMid meet"
-    aria-label="Flores floreciendo"
+    aria-label="Un ramo de flores floreciendo"
     role="img"
   >
-    <defs>
-      <linearGradient id="bgGrad" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0%" stopColor="hsl(var(--background))" />
-        <stop offset="100%" stopColor="hsl(var(--secondary))" />
-      </linearGradient>
-      <clipPath id="circleCrop">
-        <circle cx="180" cy="170" r="150" />
-      </clipPath>
-    </defs>
-
-    <rect width="100%" height="100%" fill="url(#bgGrad)" />
-
-    <g clipPath="url(#circleCrop)" transform="translate(0,10)">
-      {/* Tallo izquierdo */}
-      <g>
-        <path d="M105 320 C110 260, 120 220, 145 185" fill="none" stroke="#90be9d" strokeWidth="3" strokeLinecap="round" className="stem stem-1" />
-        <path d="M125 260 C138 248, 148 248, 160 260 C148 254,138 256,125 260" fill="#cde9c9" className="leaf leaf-1" />
-        <g transform="translate(145 185)">
-          <ellipse cx="0" cy="-8" rx="12" ry="22" className="petal p1" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8" />
-          <ellipse cx="12" cy="2" rx="12" ry="22" transform="rotate(45)" className="petal p2" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="-12" cy="2" rx="12" ry="22" transform="rotate(-45)" className="petal p3" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="0" cy="14" rx="12" ry="22" transform="rotate(180)" className="petal p4" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <circle cx="0" cy="0" r="7" className="center" fill="#FFB9B9" />
+    <g transform="translate(20, 20)">
+      {/* --- Flor 1 (Izquierda) --- */}
+      <g className="flower-1">
+        <path d="M 120,350 C 120,250 150,200 180,150" fill="none" stroke="hsl(var(--foreground) / 0.6)" strokeWidth="2" strokeLinecap="round" className="stem stem-1" />
+        <path d="M 162,220 C 150,230 140,250 145,260" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-1" />
+        <g transform="translate(180, 150) rotate(-15)">
+          <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-1" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(0)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(120)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(240)" />
         </g>
       </g>
-      {/* Tallo central */}
-      <g>
-        <path d="M180 320 C180 260, 182 220, 200 180" fill="none" stroke="#90be9d" strokeWidth="3" strokeLinecap="round" className="stem stem-2" />
-        <path d="M190 245 C205 230, 220 232, 230 248 C215 238,205 240,190 250" fill="#cde9c9" className="leaf leaf-2" />
-        <g transform="translate(200 180)">
-          <ellipse cx="0" cy="-8" rx="14" ry="26" className="petal p1" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="14" cy="2" rx="14" ry="26" transform="rotate(45)" className="petal p2" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="-14" cy="2" rx="14" ry="26" transform="rotate(-45)" className="petal p3" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="0" cy="16" rx="14" ry="26" transform="rotate(180)" className="petal p4" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <circle cx="0" cy="0" r="8" className="center" fill="#FFB9B9" />
+
+      {/* --- Flor 2 (Central) --- */}
+      <g className="flower-2">
+        <path d="M 200,350 C 200,200 200,150 200,100" fill="none" stroke="hsl(var(--foreground) / 0.6)" strokeWidth="2" strokeLinecap="round" className="stem stem-2" />
+        <path d="M 200,250 C 180,260 180,280 195,290" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-2" />
+        <path d="M 200,200 C 220,210 220,230 205,240" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-3" />
+        <g transform="translate(200, 100) scale(1.2)">
+          <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-2" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(30)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(150)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(270)" />
         </g>
       </g>
-      {/* Tallo derecho */}
-      <g>
-        <path d="M255 320 C250 260, 248 220, 230 195" fill="none" stroke="#90be9d" strokeWidth="3" strokeLinecap="round" className="stem stem-3" />
-        <path d="M235 240 C222 228, 212 230, 200 242 C215 236,225 238,235 240" fill="#cde9c9" className="leaf leaf-3" />
-        <g transform="translate(230 195)">
-          <ellipse cx="0" cy="-8" rx="11" ry="20" className="petal p1" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="11" cy="2" rx="11" ry="20" transform="rotate(45)" className="petal p2" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="-11" cy="2" rx="11" ry="20" transform="rotate(-45)" className="petal p3" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <ellipse cx="0" cy="13" rx="11" ry="20" transform="rotate(180)" className="petal p4" fill="#FCE883" stroke="#f0c84a" strokeWidth="0.8"/>
-          <circle cx="0" cy="0" r="6.5" className="center" fill="#FFB9B9" />
+
+      {/* --- Flor 3 (Derecha) --- */}
+      <g className="flower-3">
+        <path d="M 280,350 C 280,250 250,200 220,150" fill="none" stroke="hsl(var(--foreground) / 0.6)" strokeWidth="2" strokeLinecap="round" className="stem stem-3" />
+        <path d="M 238,220 C 250,230 260,250 255,260" fill="hsl(var(--primary) / 0.2)" stroke="hsl(var(--foreground) / 0.4)" strokeWidth="1.5" className="leaf leaf-4" />
+        <g transform="translate(220, 150) rotate(15)">
+           <circle cx="0" cy="0" r="6" fill="hsl(var(--primary))" className="center center-3" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-1" transform="rotate(60)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-2" transform="rotate(180)" />
+          <path d="M 0,-5 C 15,-25 15,-25 0,-40 C -15,-25 -15,-25 0,-5" fill="hsl(var(--accent))" stroke="hsl(var(--primary-foreground) / 0.5)" strokeWidth="1" className="petal petal-3" transform="rotate(300)" />
         </g>
       </g>
     </g>
@@ -128,7 +125,7 @@ const FlowerAnimation = ({ animationKey }: { animationKey: number }) => (
 );
 
 const Poem = ({ show }: { show: boolean }) => (
-  <blockquote className={`mt-4 space-y-2 transition-all duration-700 ease-in-out ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+  <blockquote className={`mt-4 space-y-2 transition-all duration-1000 ease-in-out ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
     <p className="text-lg italic text-foreground/80 md:text-xl">
       "En cada pétalo nace la esperanza,
       <br />
@@ -147,41 +144,41 @@ export default function FloralGreeting() {
   const [showPoem, setShowPoem] = useState(false);
 
   const handleBloom = () => {
-    if (isBlooming) {
-      // Reiniciar animación
       setShowPoem(false);
-      setAnimationKey(prevKey => prevKey + 1);
-      setTimeout(() => setShowPoem(true), 1800); // Sincronizado con el final de la animación
-    } else {
-      // Primera vez
-      setIsBlooming(true);
-      setTimeout(() => setShowPoem(true), 1800);
-    }
+      // Forzar un reflow para reiniciar la animación del poema
+      setTimeout(() => {
+        setAnimationKey(prevKey => prevKey + 1);
+        setIsBlooming(true);
+        // El poema se muestra después de que la animación de las flores casi ha terminado
+        setTimeout(() => setShowPoem(true), 2200);
+      }, 50)
   };
 
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center bg-background p-6 text-center overflow-hidden">
-      <div className="w-full max-w-md space-y-6">
+      <div className="w-full max-w-md space-y-4">
         <header>
           <h1 className="font-headline text-5xl text-foreground/90 sm:text-6xl md:text-7xl">
             Para la flor más bella, Antonella
           </h1>
         </header>
 
-        <main className="flex min-h-[420px] flex-col items-center justify-center">
-          <div className="w-full h-80 mb-4 rounded-lg overflow-hidden">
+        <main className="flex flex-col items-center justify-center">
+          <div className="w-full h-80 -mb-4">
             {isBlooming && <FlowerAnimation animationKey={animationKey} />}
           </div>
 
           <Button
             onClick={handleBloom}
             size="lg"
-            className="rounded-full bg-primary px-8 py-6 text-lg font-semibold text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 focus-visible:ring-primary"
+            className="rounded-full bg-primary px-8 py-6 text-lg font-semibold text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 focus-visible:ring-primary z-10"
           >
             {isBlooming ? "Florecer de nuevo" : "Toca para florecer"}
           </Button>
-
-          {isBlooming && <Poem show={showPoem} />}
+          
+          <div className="min-h-[120px]">
+            {isBlooming && <Poem show={showPoem} />}
+          </div>
         </main>
       </div>
     </div>
