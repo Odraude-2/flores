@@ -1,73 +1,83 @@
 export const baseFloralAnimation = `
-<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+<svg width="300" height="300" viewBox="-50 -50 400 400" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .stem, .petal {
-      stroke-width: 2.5;
+    .stem, .leaf, .petal {
+      stroke-width: 3;
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
     .stem {
-      stroke: #90be9d; /* A pastel green */
+      stroke: #90be9d;
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: draw 2s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+    }
+    .leaf {
+      stroke: #90be9d;
+      fill: #90be9d;
+      fill-opacity: 0;
+      animation: unfold 1.5s cubic-bezier(0.6, 0, 0.4, 1) 1s forwards;
     }
     .petal {
-      stroke: #FCE883; /* Soft yellow from palette */
+      stroke: #FCE883;
+      fill: #FCE883;
+      fill-opacity: 0;
+      transform-origin: center;
+      animation: bloom 1.5s cubic-bezier(0.6, 0, 0.4, 1) 1.5s forwards;
     }
     .petal-accent {
-      stroke: #FFB9B9; /* Pale rose for variety */
+      stroke: #FFB9B9;
       fill: #FFB9B9;
-      fill-opacity: 0.3;
-    }
-
-    .draw-animation {
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-      animation: draw 2.8s cubic-bezier(0.6, 0, 0.4, 1) forwards;
+      fill-opacity: 0;
+      transform-origin: center;
+      animation: bloom 1.8s cubic-bezier(0.6, 0, 0.4, 1) 1.7s forwards;
     }
 
     @keyframes draw {
-      to {
-        stroke-dashoffset: 0;
-      }
+      to { stroke-dashoffset: 0; }
     }
-
-    /* Animation delays */
-    .flower-1 .stem { animation-delay: 0s; }
-    .flower-1 .petal { animation-delay: 0.4s; }
-
-    .flower-2 .stem { animation-delay: 0.8s; }
-    .flower-2 .petal { animation-delay: 1.2s; }
-    
-    .flower-3 .petal { animation-delay: 1.6s; }
-    .flower-3 .petal-accent { animation-delay: 1.8s; animation-duration: 2s; }
-
+    @keyframes unfold {
+      0% { transform: scaleY(0.1); fill-opacity: 0; }
+      100% { transform: scaleY(1); fill-opacity: 0.4; }
+    }
+    @keyframes bloom {
+      0% { transform: scale(0); fill-opacity: 0; }
+      100% { transform: scale(1); fill-opacity: 0.6; }
+    }
   </style>
 
-  <!-- Flower 1 (left) -->
-  <g class="flower-1">
-    <path class="stem draw-animation" d="M125,250 C105,200 105,150 135,100" />
-    <path class="petal draw-animation" d="M135,100 C115,80 135,60 135,100" />
-    <path class="petal draw-animation" d="M135,100 C155,80 135,60 135,100" />
-    <path class="petal draw-animation" d="M135,100 C115,120 135,140 135,100" />
-    <path class="petal draw-animation" d="M135,100 C155,120 135,140 135,100" />
-  </g>
+  <g transform="translate(150, 0)">
+    <!-- Stem -->
+    <path class="stem" d="M0,300 C 0,250 20,150 0,100" />
 
-  <!-- Flower 2 (right) -->
-  <g class="flower-2">
-    <path class="stem draw-animation" d="M175,250 C195,200 195,150 165,120" />
-    <path class="petal draw-animation" d="M165,120 C145,100 165,80 165,120" />
-    <path class="petal draw-animation" d="M165,120 C185,100 165,80 165,120" />
-    <path class="petal draw-animation" d="M165,120 C145,140 165,160 165,120" />
-    <path class="petal draw-animation" d="M165,120 C185,140 165,160 165,120" />
-  </g>
+    <!-- Leaves -->
+    <path class="leaf" transform="translate(-5, 180)" d="M0,0 C20,-20 30,-50 -10,-60 Q-20 -30 0,0" />
+    <path class="leaf" transform="translate(5, 230) scale(-1, 1)" d="M0,0 C20,-20 30,-50 -10,-60 Q-20 -30 0,0" />
 
-  <!-- Flower 3 (center, different style) -->
-  <g class="flower-3" transform="translate(0, 40)">
-     <path class="petal-accent draw-animation" d="M150,180 C130,160 170,160 150,180" style="animation-delay: 1.7s" />
-     <path class="petal-accent draw-animation" d="M150,180 C140,150 160,150 150,180" style="animation-delay: 1.8s" />
-     <path class="petal draw-animation" d="M150,180 C160,200 140,200 150,180" style="animation-delay: 1.9s" />
-     <path class="petal draw-animation" d="M150,180 C170,190 130,190 150,180" style="animation-delay: 2.0s" />
+    <!-- Main Flower -->
+    <g transform="translate(0, 100)">
+      <!-- Central accent petals -->
+      <circle class="petal-accent" cx="0" cy="0" r="15" style="animation-delay: 2s;"/>
+      
+      <!-- Yellow Petals -->
+      <g class="petal" style="animation-delay: 1.5s;">
+        <path d="M0,-50 Q35,-40 0,0" />
+        <path d="M0,-50 Q-35,-40 0,0" />
+      </g>
+       <g class="petal" style="animation-delay: 1.6s;">
+        <path d="M50,0 Q40,35 0,0" />
+        <path d="M50,0 Q40,-35 0,0" transform="rotate(180)"/>
+      </g>
+      <g class="petal" style="animation-delay: 1.7s;">
+        <path transform="rotate(45)" d="M0,-45 Q30,-35 0,0" />
+        <path transform="rotate(45)" d="M0,-45 Q-30,-35 0,0" />
+      </g>
+       <g class="petal" style="animation-delay: 1.8s;">
+        <path transform="rotate(-45)" d="M0,-45 Q30,-35 0,0" />
+        <path transform="rotate(-45)" d="M0,-45 Q-30,-35 0,0" />
+      </g>
+    </g>
   </g>
-
 </svg>
-`;
+`
