@@ -37,16 +37,15 @@ const lotusAnimationStyles = `
   position: absolute;
   box-shadow: 0 0 15px hsl(var(--primary) / 0.5);
   border: 1px solid hsl(var(--primary-foreground) / 0.1);
+  transform-origin: bottom left;
 }
 
 .petal {
-  transform-origin: bottom left;
   animation: bloomPetal 2s ease-out forwards;
 }
 
 .petal-alt {
   background: hsl(var(--primary) / 0.6);
-  transform-origin: bottom left;
   animation: bloomPetalAlt 2s ease-out forwards;
 }
 
@@ -98,23 +97,23 @@ const lotusAnimationStyles = `
 .leaf {
   width: 100px;
   height: 50px;
-  background-color: hsl(var(--foreground) / 0.5);
+  background-color: hsl(120, 39%, 60%);
   border-radius: 0 50px;
   position: absolute;
   opacity: 0;
   transform-origin: bottom center;
-  animation: unfoldLeaf 2s ease-out 1s forwards;
+  animation: unfoldLeaf 2s ease-out forwards;
 }
 
-.leaf:nth-child(1) { transform: rotate(-30deg) translateX(-80px) scale(0); }
-.leaf:nth-child(2) { transform: rotate(30deg) translateX(80px) scale(0); }
+.leaf:nth-child(1) { transform: rotate(-30deg) translateX(-80px) scale(0); animation-delay: 1s; }
+.leaf:nth-child(2) { transform: rotate(30deg) translateX(80px) scale(0); animation-delay: 1s; }
 .leaf:nth-child(3) { transform: rotate(0deg) scale(0) translateY(20px); animation-delay: 1.2s; }
 
-
 @keyframes bloomPetal {
-  0% { transform: rotate(var(--angle)) translateX(0) scale(0); opacity: 0; }
-  100% { transform: rotate(var(--angle)) translateX(20px) scale(1); opacity: 1; }
+  0% { transform: scale(0) rotate(var(--angle)) translateX(0); opacity: 0; }
+  100% { transform: scale(1) rotate(var(--angle)) translateX(20px); opacity: 1; }
 }
+
 .petal:nth-child(1) { --angle: 0deg; }
 .petal:nth-child(2) { --angle: 45deg; }
 .petal:nth-child(3) { --angle: 90deg; }
@@ -125,8 +124,8 @@ const lotusAnimationStyles = `
 .petal:nth-child(8) { --angle: 315deg; }
 
 @keyframes bloomPetalAlt {
-  0% { transform: rotate(var(--angle)) translateX(0) scale(0); opacity: 0; }
-  100% { transform: rotate(var(--angle)) translateX(35px) scale(1); opacity: 1; }
+  0% { transform: scale(0) rotate(var(--angle)) translateX(0); opacity: 0; }
+  100% { transform: scale(1) rotate(var(--angle)) translateX(35px); opacity: 1; }
 }
 
 .petal-alt:nth-child(9) { --angle: 22.5deg; }
@@ -137,7 +136,6 @@ const lotusAnimationStyles = `
 .petal-alt:nth-child(14) { --angle: 247.5deg; }
 .petal-alt:nth-child(15) { --angle: 292.5deg; }
 .petal-alt:nth-child(16) { --angle: 337.5deg; }
-
 
 @keyframes bloomCenter {
   from { transform: scale(0); opacity: 0; }
