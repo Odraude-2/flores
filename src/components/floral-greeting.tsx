@@ -217,8 +217,6 @@ export default function FloralGreeting() {
         
         setTimeout(() => setShowPoem(true), 2500);
 
-        // Vuelve a mostrar el botón después de que todo haya terminado
-        setTimeout(() => setShowButton(true), 4000); 
       }, 50)
   };
 
@@ -243,7 +241,7 @@ export default function FloralGreeting() {
                 size="lg"
                 className="rounded-full bg-primary px-8 py-6 text-lg font-semibold text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 focus-visible:ring-primary z-10"
               >
-                {showFlower ? "Florecer de nuevo" : "Toca para florecer"}
+                Toca para florecer
               </Button>
             )}
           </div>
