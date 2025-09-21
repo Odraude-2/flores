@@ -203,17 +203,22 @@ const Poem = ({ show }: { show: boolean }) => (
 
 export default function FloralGreeting() {
   const [animationKey, setAnimationKey] = useState(0);
-  const [isBlooming, setIsBlooming] = useState(false);
+  const [showFlower, setShowFlower] = useState(false);
   const [showPoem, setShowPoem] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   const handleBloom = () => {
       setShowPoem(false);
-      // Forzar un reflow para reiniciar la animación
+      setShowButton(false);
+      
       setTimeout(() => {
         setAnimationKey(prevKey => prevKey + 1);
-        setIsBlooming(true);
-        // El poema aparece después de que la animación casi ha terminado
+        setShowFlower(true);
+        
         setTimeout(() => setShowPoem(true), 2500);
+
+        // Vuelve a mostrar el botón después de que todo haya terminado
+        setTimeout(() => setShowButton(true), 4000); 
       }, 50)
   };
 
@@ -228,19 +233,23 @@ export default function FloralGreeting() {
 
         <main className="flex flex-col items-center justify-center">
           <div className="w-full h-80 flex items-center justify-center">
-            {isBlooming && <LotusAnimation animationKey={animationKey} />}
+            {showFlower && <LotusAnimation animationKey={animationKey} />}
           </div>
-
-          <Button
-            onClick={handleBloom}
-            size="lg"
-            className="rounded-full bg-primary px-8 py-6 text-lg font-semibold text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 focus-visible:ring-primary z-10"
-          >
-            {isBlooming ? "Florecer de nuevo" : "Toca para florecer"}
-          </Button>
+          
+          <div className={`transition-all duration-500 ease-in-out ${showButton ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+            {showButton && (
+              <Button
+                onClick={handleBloom}
+                size="lg"
+                className="rounded-full bg-primary px-8 py-6 text-lg font-semibold text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 focus-visible:ring-primary z-10"
+              >
+                {showFlower ? "Florecer de nuevo" : "Toca para florecer"}
+              </Button>
+            )}
+          </div>
           
           <div className="min-h-[120px]">
-            {isBlooming && <Poem show={showPoem} />}
+            {showFlower && <Poem show={showPoem} />}
           </div>
         </main>
       </div>
