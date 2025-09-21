@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-// CSS para la animación de la flor de loto, adaptado del CodePen
+// CSS para la animación de la flor de loto, adaptado y modificado
 const lotusAnimationStyles = `
 .lotus-container {
   width: 320px;
@@ -27,13 +27,6 @@ const lotusAnimationStyles = `
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: rotateLotus 20s linear infinite;
-  animation-delay: 1.5s;
-}
-
-@keyframes rotateLotus {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .petal, .petal-alt {
@@ -43,7 +36,7 @@ const lotusAnimationStyles = `
   border-radius: 50px 0;
   position: absolute;
   box-shadow: 0 0 15px hsl(var(--primary) / 0.5);
-  border: 1px solid hsl(var(--primary-foreground) / 0.2);
+  border: 1px solid hsl(var(--primary-foreground) / 0.1);
 }
 
 .petal {
@@ -79,13 +72,13 @@ const lotusAnimationStyles = `
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
   position: absolute;
   z-index: 10;
   opacity: 0;
   transform: scale(0);
   animation: bloomCenter 1.5s ease-out 1.8s forwards;
-  box-shadow: 0 0 20px 5px hsl(var(--primary));
+  box-shadow: 0 0 20px 5px hsl(var(--primary) / 0.7);
 }
 
 .leaves {
